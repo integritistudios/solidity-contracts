@@ -1,0 +1,36 @@
+sudo mkdir /bsc
+cd bsc
+sudo chmod 777 /bsc
+cd  /bsc
+rm -rf *
+nohup wget "https://binance-smart-chain-snapshot.s3.amazonaws.com/snap.tar.gz" &
+
+sudo apt-get update
+sudo apt-get install unzip -y
+sudo apt-get install build-essential -y
+sudo apt-get install make -y
+
+wget https://github.com/binance-chain/bsc/archive/refs/tags/v1.0.6.zip
+wget https://github.com/binance-chain/bsc/releases/download/v1.0.6/mainnet.zip
+wget https://golang.org/dl/go1.16.3.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.16.3.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+
+unzip v1.0.6.zip -d /bsc
+mv bsc-1.0.6 bsc106
+
+cd /bsc/bsc106
+make geth
+
+mv /bsc/mainnet.zip /bsc/bsc106
+unzip mainnet.zip
+./build/bin/geth --datadir node init genesis.json
+
+WAIT HERE UNTIL FILE DOWNLOAD IS COMPLETED
+
+EDIT FILES
+
+pico config.toml
+pico /bsc/bsc106/bsc.sh
+pico /bsc/bsc106/attach.sh
+pico /bsc/bsc106/call.sh
