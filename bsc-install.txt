@@ -37,6 +37,7 @@ echo "///"
 echo "/// section 2  - replace the following sections in config.toml"
 echo "///"
 
+cd /bsc/bsc106/
 pico config.toml
 
 [Eth.TxPool]
@@ -67,18 +68,24 @@ echo "///"
 ///////// now we start getting the blockchain data snapshot
 cd /bsc/
 nohup wget "https://binance-smart-chain-snapshot.s3.amazonaws.com/snap.tar.gz" &
+echo "WAIT UNTIL THIS IS COMPLETED"
+pause
+
+tail -f nohup.out
 cd /bsc/bsc106/node/geth/chaindata/
 mv /bsc/snap.tar.gz .
-gzip -d snap.tar.gz
-nohup tar -xvf snap.tar &
-rm snap.tar
+tar -xvzf snap.tar.gz
+
+rm snap.tar.gz
 cd /bsc/bsc106/node/geth/chaindata/snap-bsc/chaindata 
 ls | xargs -i mv -f {} /bsc/bsc106/node/geth/chaindata/
-cd ancient
+
+echo "THIS IS NOT NEEDED IF NEVER RUN BEFORE"
+cd /bsc/bsc106/node/geth/chaindata/snap-bsc/chaindata/ancient
 mv * /bsc/bsc106/node/geth/chaindata/ancient
 
 echo "///"
-echo "/// section 4  - start the node"
+echo "/// section 4 - start the node"
 echo "///"
 
 cd /bsc/bsc106/
