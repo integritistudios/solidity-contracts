@@ -1,3 +1,5 @@
+NOTE: Change ports as required
+
 
 echo "///"
 echo "/// section 1 - install geth"
@@ -30,7 +32,7 @@ unzip mainnet.zip
 
 cd /bsc/bsc106
 echo "./build/bin/geth attach http://0.0.0.0:8545" > attach.sh
-echo "nohup ./build/bin/geth --config ./config.toml --datadir ./node --rpc --rpcaddr \"0.0.0.0\" --syncmode \"fast\" --cache=1024 --ws --wsaddr=\"0.0.0.0\" --wsport 8546 --wsorigins \"*\" &" > bsc.sh
+echo "nohup ./build/bin/geth --config ./config.toml --datadir ./node --rpc --rpcaddr \"0.0.0.0\" --syncmode \"fast\" --cache=1024 --ws --wsport 8546 --wsaddr=\"0.0.0.0\" --wsport 8546 --wsorigins \"*\" &" > bsc.sh
 echo "curl --header \"Content-Type: application/json\" -X POST --data '{\"jsonrpc\":\"2.0\",\"method\":\"eth_syncing\",\"params\":[],\"id\":67}' http://0.0.0.0:8545" > call.sh
 
 echo "///"
@@ -45,12 +47,12 @@ Locals = []
 NoLocals = true
 Journal = "transactions.rlp"
 Rejournal = 3600000000000
-PriceLimit = 1000000000
+PriceLimit = 5000000000
 PriceBump = 10
-AccountSlots = 2048
+AccountSlots = 512
 GlobalSlots = 10000
-AccountQueue = 2048
-GlobalQueue = 1000000
+AccountQueue = 256
+GlobalQueue = 5000
 Lifetime = 10800000000000
 
 [Node]
