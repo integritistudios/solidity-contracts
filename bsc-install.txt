@@ -119,11 +119,15 @@ Lifetime = 10800000000000
 
 [Node]
 IPCPath = "geth.ipc"
-HTTPHost = "127.0.0.1"
+HTTPHost = "0.0.0.0"
+RPCAddr = "0.0.0.0"
+WSHost = "0.0.0.0"
+WSAddr = "0.0.0.0"
+WSOrigins = ["*"]
 NoUSB = true
 InsecureUnlockAllowed = false
 HTTPPort = 59811
-HTTPVirtualHosts = ["localhost"]
+HTTPVirtualHosts = ["*"]
 HTTPModules = ["eth", "net", "web3", "txpool", "parlia"]
 WSPort = 59812
 WSModules = ["net", "web3", "eth"]
