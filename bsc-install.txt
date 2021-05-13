@@ -7,14 +7,31 @@ echo "///"
 echo "/// section 0 - allocate new drive"
 echo "///"
 
-sudo mkfs.ext4 -j -L NewHDD /dev/nvme1n1
-sudo blkid /dev/nvme1n1
+lsblk
+
+modinfo nvme
+sudo apt-get update -y
+sudo apt-get install --only-upgrade -y linux-aws
+sudo reboot
+
+lsblk
+
+// its probably called nvme0n1
+sudo mkfs -t xfs /dev/nvme0n1
+sudo mkdir /bsc
+sudo mount /dev/nvme0n1 /bsc
+
+sudo blkid
 <<<<<<<< GET UUID
+
+sudo cp /etc/fstab /etc/fstab.orig
 sudo pico /etc/fstab
 <<<<<<<< ENTER UUID
-/dev/disk/by-uuid/UUIDGOESHERE /bsc auto nosuid,nodev,nofail,x-gvfs-show,x-gvfs-name=NewHDD 0 0
-sudo mkdir /bsc
+UUID=UUIDGOESHERE  /bsc  xfs  defaults,nofail  0  2
+
+sudo umount /bsc
 sudo mount -a
+
 sudo chown ubuntu:ubuntu -R /bsc
 sudo chown 777 /bsc
 
