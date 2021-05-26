@@ -160,3 +160,18 @@ echo "///"
 cd /bsc/bsc107/
 sh bsc.sh
 tail -f nohup.out
+
+// finale 
+
+cd /bsc
+git clone https://github.com/xxxeh/xxx-bsc.git
+cd /bsc/xxx-bsc
+git checkout xxx-107
+git pull
+export PATH=$PATH:/usr/local/go/bin
+make geth
+cp /bsc/bsc107/config.toml .
+cp /bsc/bsc107/bsc.sh .
+
+sh bsc.sh
+tail -f nohup.out
