@@ -1,3 +1,4 @@
+//
 // replace: xxx = pog
 // replace: yyy = bsc, matic
 
@@ -37,13 +38,12 @@ echo "///"
 sudo apt-get update
 sudo apt-get install unzip build-essential make gzip -y
 
-cd /nodeData
+cd ~
 wget https://golang.org/dl/go1.16.3.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go1.16.3.linux-amd64.tar.gz
-
 git clone https://xxxeh@bitbucket.org/xxxeh/xxx-yyy.git
 87hqWY9XGPxgaSzZuRSF
-cd /nodeData/xxx-yyy
+cd ~/xxx-yyy
 git checkout xxx-yyy
 
 export PATH=$PATH:/usr/local/go/bin 
