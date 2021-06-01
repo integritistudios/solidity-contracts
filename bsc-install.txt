@@ -170,6 +170,7 @@ git checkout xxx-107
 git pull
 export PATH=$PATH:/usr/local/go/bin
 make geth
+./build/bin/geth  --datadir /bsc/bsc107/node init genesis.json
 cp /bsc/bsc107/config.toml .
 cp /bsc/bsc107/bsc.sh .
 
