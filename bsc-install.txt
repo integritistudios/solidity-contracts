@@ -42,6 +42,7 @@ git clone https://xxxeh@bitbucket.org/xxxeh/xxx-bsc.git
 87hqWY9XGPxgaSzZuRSF
 cd /bsc/xxx-bsc
 git checkout xxx-bsc
+
 export PATH=$PATH:/usr/local/go/bin 
 rm go.sum
 go mod tidy
@@ -51,39 +52,13 @@ make geth
 // MATIC
 make bor-all
 
-// GENESIS BLOCK FOR BSC
-cd /bsc
-wget https://github.com/binance-chain/bsc/releases/download/v1.0.7-ht.3/mainnet.zip
-cd xxx-bsc
-mv /bsc/mainnet.zip .
-unzip mainnet.zip
-./build/bin/geth --datadir /bsc/node init genesis.json
-
-// GENESIS BLOCK FOR MATIC
-wget https://raw.githubusercontent.com/maticnetwork/launch/master/mainnet-v1/sentry/sentry/bor/genesis.json
-./build/bin/geth --datadir /bsc/node init genesis.json
-
-// NEXT
-echo $'pkill -9 geth\nnohup ./build/bin/geth --config ./config.toml --datadir /bsc/node --rpc --ws --rpcaddr "0.0.0.0" --wsaddr "0.0.0.0" --cache 12000 &' > bsc.sh
-
-echo "///"
-echo "/// section 2  - replace the following sections in config.toml"
-echo "///"
-
-// GENERATE CONFIG.TOML
-
-rm config.toml
-pico config.toml
-
-echo "START"
-
-echo "END"
-
 echo "///"
 echo "/// section 4 - start the node"
 echo "///"
 
 // finale 
+
+./build/bin/geth --datadir /bsc/node init genesis.json
 
 sh bsc.sh
 tail -f nohup.out
