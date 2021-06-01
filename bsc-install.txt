@@ -1,3 +1,6 @@
+// replace: xxx = pog
+// replace: yyy = bsc, matic
+
 sudo timedatectl set-timezone Australia/Brisbane
 
 echo "///"
@@ -12,8 +15,8 @@ lsblk
 
 // its probably called nvme0n1
 sudo mkfs -t xfs /dev/nvme0n1
-sudo mkdir /bsc
-sudo mount /dev/nvme0n1 /bsc
+sudo mkdir /nodeData
+sudo mount /dev/nvme0n1 /nodeData
 
 sudo blkid
 <<<<<<<< GET UUID
@@ -21,11 +24,11 @@ sudo blkid
 sudo cp /etc/fstab /etc/fstab.orig
 sudo pico /etc/fstab
 <<<<<<<< ENTER UUID
-UUID=UUIDGOESHERE  /bsc  xfs  defaults,nofail  0  2
+UUID=UUIDGOESHERE  /nodeData  xfs  defaults,nofail  0  2
 sudo reboot
 
-sudo chown ubuntu:ubuntu -R /bsc
-sudo chmod 777 /bsc
+sudo chown ubuntu:ubuntu -R /nodeData
+sudo chmod 777 /nodeData
 
 echo "///"
 echo "/// section 1 - install geth"
@@ -34,14 +37,14 @@ echo "///"
 sudo apt-get update
 sudo apt-get install unzip build-essential make gzip -y
 
-cd /bsc
+cd /nodeData
 wget https://golang.org/dl/go1.16.3.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go1.16.3.linux-amd64.tar.gz
 
-git clone https://xxxeh@bitbucket.org/xxxeh/xxx-bsc.git
+git clone https://xxxeh@bitbucket.org/xxxeh/xxx-yyy.git
 87hqWY9XGPxgaSzZuRSF
-cd /bsc/xxx-bsc
-git checkout xxx-bsc
+cd /nodeData/xxx-yyy
+git checkout xxx-yyy
 
 export PATH=$PATH:/usr/local/go/bin 
 rm go.sum
@@ -58,7 +61,7 @@ echo "///"
 
 // finale 
 
-./build/bin/geth --datadir /bsc/node init genesis.json
+./build/bin/geth --datadir /nodeData/node init genesis.json
 
-sh bsc.sh
+sh run.sh
 tail -f nohup.out
