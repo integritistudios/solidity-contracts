@@ -10,22 +10,11 @@ echo "///"
 
 sudo apt-get update -y
 sudo apt-get install --only-upgrade -y linux-aws
-sudo reboot
 
 sudo rmdir /nodeData
 sudo mkfs -t xfs /dev/nvme0n1
 sudo mkdir /nodeData
 sudo mount /dev/nvme0n1 /nodeData
-
-// OLD
-//sudo blkid
-<<<<<<<< GET UUID
-//
-//sudo cp /etc/fstab /etc/fstab.orig
-//sudo pico /etc/fstab
-//<<<<<<<< ENTER UUID
-//UUID=UUIDGOESHERE  /nodeData  xfs  defaults,nofail  0  2
-//sudo mount -a
 
 sudo chown ubuntu:ubuntu -R /nodeData
 sudo chmod 777 /nodeData
