@@ -1,6 +1,5 @@
 //
 // replace: xxx = pog
-// replace: yyy = bsc, matic
 
 sudo timedatectl set-timezone Australia/Brisbane
 
@@ -29,19 +28,15 @@ sudo apt-get install unzip build-essential make gzip -y
 cd ~
 wget https://golang.org/dl/go1.16.3.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go1.16.3.linux-amd64.tar.gz
-git clone https://xxxeh@bitbucket.org/xxxeh/xxx-yyy.git
+git clone https://xxxeh@bitbucket.org/xxxeh/xxx-bsc.git
 87hqWY9XGPxgaSzZuRSF
-cd ~/xxx-yyy
-git checkout xxx-yyy
+cd ~/xxx-bsc
+git checkout xxx-bsc
 
 export PATH=$PATH:/usr/local/go/bin 
 rm go.sum
 go mod tidy
-
-// BSC
 make geth
-// MATIC
-make bor-all
 
 echo "///"
 echo "/// section 4 - start the node"
