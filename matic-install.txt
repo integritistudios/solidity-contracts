@@ -1,0 +1,66 @@
+https://docs.matic.network/docs/integrate/full-node-binaries/
+
+sudo rmdir /nodeData
+sudo mkfs -t xfs /dev/nvme0n1
+sudo mkdir /nodeData
+sudo mount /dev/nvme0n1 /nodeData
+
+
+sudo apt-get update
+sudo apt install python3-pip -y
+sudo apt install ansible -y
+sudo apt-get install build-essential
+wget https://gist.githubusercontent.com/jdkanani/e18e14910652ad829fad994e4b89f0b9/raw/aecdd859f568848083b4db6cc1ee2bc1b8090ed3/go-install.sh
+sh go-install.sh
+
+sudo reboot
+
+cd ~/
+git clone https://github.com/maticnetwork/heimdall
+cd heimdall
+git checkout v0.2.1-mainnet
+rm go.sum
+go mod tidy
+make install
+heimdalld version --long
+
+cd ~/
+git clone https://github.com/maticnetwork/bor
+cd bor
+git checkout v0.2.5
+rm go.sum
+go mod tidy
+make bor-all
+bor version
+
+git clone https://github.com/maticnetwork/launch
+
+cd ~/
+mkdir node
+
+// SPLIT HERE
+cp -rf launch/mainnet-v1/sentry/sentry/* ~/node
+cp -rf launch/mainnet-v1/sentry/validator/* ~/node
+cd ~/node
+// SPLIT HERE
+
+cd ~/node/bor
+bash setup.sh
+cd ~/node/heimdall
+bash setup.sh
+cd ~/node
+wget https://raw.githubusercontent.com/maticnetwork/launch/master/mainnet-v1/service.sh
+bash service.sh
+sudo cp *.service /etc/systemd/system/
+
+pico ~/.heimdalld/config/config.toml
+
+seeds="f4f605d60b8ffaaf15240564e58a81103510631c@159.203.9.164:26656,4fb1bc820088764a564d4f66bba1963d47d82329@44.232.55.71:26656"
+
+pico ~/node/bor/start.sh
+
+sudo service heimdalld start
+
+curl localhost:26657/status | grep catching_up
+
+sudo service bor start
