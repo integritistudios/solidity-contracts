@@ -5,6 +5,8 @@ sudo mkfs -t xfs /dev/nvme0n1
 sudo mkdir /nodeData
 sudo mount /dev/nvme0n1 /nodeData
 
+sudo chown ubuntu:ubuntu -R /nodeData
+sudo chmod 777 /nodeData
 
 sudo apt-get update
 sudo apt install python3-pip -y
