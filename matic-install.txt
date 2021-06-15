@@ -1,65 +1,41 @@
-https://docs.matic.network/docs/integrate/full-node-binaries/
-
-sudo rmdir /nodeData
-sudo mkfs -t xfs /dev/nvme0n1
-sudo mkdir /nodeData
-sudo mount /dev/nvme0n1 /nodeData
-
-sudo chown ubuntu:ubuntu -R /nodeData
-sudo chmod 777 /nodeData
-
 sudo apt-get update
+sudo apt install python3 -y
 sudo apt install python3-pip -y
-sudo apt install ansible -y
-sudo apt-get install build-essential
-wget https://gist.githubusercontent.com/jdkanani/e18e14910652ad829fad994e4b89f0b9/raw/aecdd859f568848083b4db6cc1ee2bc1b8090ed3/go-install.sh
-sh go-install.sh
+sudo pip3 install ansible
 
-sudo reboot
+curl -w "\n" -s https://api.ipify.org
+sentry 34.197.101.81
+validr 54.175.153.52
 
-cd ~/
-git clone https://github.com/maticnetwork/heimdall
-cd heimdall
-git checkout v0.2.1-mainnet
-rm go.sum
-go mod tidy
-make install
-heimdalld version --long
+// copy keys to each other
+ssh-keygen
+cat ~/.ssh/id_rsa.pub
+pico ~/.ssh/authorized_keys
+// paste it in
 
-cd ~/
-git clone https://github.com/maticnetwork/bor
-cd bor
-git checkout v0.2.5
-rm go.sum
-go mod tidy
-make bor-all
-bor version
+ssh ubuntu@34.197.101.81
+ssh ubuntu@54.175.153.52
 
-git clone https://github.com/maticnetwork/launch
+///
 
-// SPLIT HERE
-cp -rf launch/mainnet-v1/sentry/sentry/* /nodeData
-cp -rf launch/mainnet-v1/sentry/validator/* /nodeData
-cd /nodeData
-// SPLIT HERE
+cd ~
+git clone https://github.com/maticnetwork/node-ansible
+cd ~/node-ansible
+pico inventory.yml
 
-cd /nodeData/bor
-bash setup.sh
-cd /nodeData/heimdall
-bash setup.sh
-cd /nodeData
-wget https://raw.githubusercontent.com/maticnetwork/launch/master/mainnet-v1/service.sh
-bash service.sh
-sudo cp *.service /etc/systemd/system/
+//
 
-pico ~/.heimdalld/config/config.toml
+all:
 
-seeds="f4f605d60b8ffaaf15240564e58a81103510631c@159.203.9.164:26656,4fb1bc820088764a564d4f66bba1963d47d82329@44.232.55.71:26656"
+  hosts:
+  children:
+    sentry:
+      hosts:
+       34.197.101.81:
+    validator:
+      hosts:
+        54.175.153.52:
 
-pico /nodeData/bor/start.sh
+//
 
-sudo service heimdalld start
-
-curl localhost:26657/status | grep catching_up
-
-sudo service bor start
+ansible-playbook -l sentry playbooks/network.yml --extra-var="bor_branch=v0.2.6 heimdall_branch=v0.2.1-mainnet  network_version=mainnet-v1 node_type=sentry/sentry"
