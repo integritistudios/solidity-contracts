@@ -11,9 +11,9 @@ sudo apt-get update -y
 sudo apt-get install --only-upgrade -y linux-aws
 
 sudo rmdir /nodeData
-sudo mkfs -t xfs /dev/nvme0n1
+sudo mkfs -t xfs /dev/nvme1n1
 sudo mkdir /nodeData
-sudo mount /dev/nvme0n1 /nodeData
+sudo mount /dev/nvme1n1 /nodeData
 
 sudo chown ubuntu:ubuntu -R /nodeData
 sudo chmod 777 /nodeData
