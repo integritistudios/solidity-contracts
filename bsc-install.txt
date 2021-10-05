@@ -1,7 +1,7 @@
 //
 // replace: xxx = pog
 
-sudo timedatectl set-timezone Australia/Brisbane
+sudo timedatectl set-timezone Australia/Melbourne
 
 echo "///"
 echo "/// section 0 - allocate new drive"
